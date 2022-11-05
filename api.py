@@ -1,3 +1,4 @@
+from io import BytesIO
 from flask import Flask, request
 import requests, qrcode, base64, json
 
@@ -46,12 +47,11 @@ def newqrcode():
     t = resp.json()['content']['data']['t']
     # url to qrcode
     img = qrcode.make(codeContent)
-    # save qrcode
-    img.save('qrcode.png')
-    # qrcode to base64
-    with open('qrcode.png', 'rb') as f:
-        base64_data = base64.b64encode(f.read())
-        s = base64_data.decode()
+    img_buffer = BytesIO()
+    img.save(img_buffer, format="PNG")
+    # base64 encode
+    base64_data = base64.b64encode(img_buffer.getvalue())
+    s = base64_data.decode()
     codeContent = 'data:image/png;base64,' + s
     return json.dumps({
         'codeContent': codeContent,
