@@ -38,7 +38,6 @@ def newqrcode():
         headers={
             'Access-Control-Allow-Origin': '*',
         },
-        timeout=3,
     )
     if resp.status_code != 200:
         return 'error'
@@ -86,7 +85,6 @@ def statecheck():
             'navlanguage': 'zh-CN',
             'navPlatform': 'MacIntel',
         },
-        timeout=3,
     )
     if resp.status_code != 200:
         return 'error'
